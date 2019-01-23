@@ -8,9 +8,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-    <title>$Title$</title>
+      <title>Status</title>
+      <script src="static/jQuery.js"
+              type="text/javascript"></script>
+      <script type="text/javascript" src="static/listDisplayer.js"></script>
   </head>
   <body>
-  $END$
+    Click it!
+    <input type = "button" onclick = "onClick()" value = "Refresh" />
+    <div id="ajaxGetUserServletResponse"></div>
   </body>
 </html>
