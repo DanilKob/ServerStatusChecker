@@ -1,5 +1,10 @@
 package controller;
 
+import controller.commands.Command;
+import controller.commands.CommandConstants;
+import controller.response.processors.ResponseProcessor;
+import controller.utils.CommandUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
 
@@ -13,6 +18,9 @@ public class ControllerServlet extends HttpServlet {
 
     private ApplicationContext springApplicationContext;
 
+    @Autowired
+    private CommandUtil commandUtil;
+
     @Override
     public void init() throws ServletException {
         super.init();
@@ -24,11 +32,30 @@ public class ControllerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+        //super.doGet(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doPost(req, resp);
+    }
+
+    private void proccesRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String commandBeanName = commandUtil.getCommandBeanName(request);
+        Command command = springApplicationContext.getBean(commandBeanName, Command.class);
+        String responseStr;
+
+        try {
+            responseStr = command.execute(request, response);
+        } catch (RuntimeException e) {
+            responseStr = CommandConstants.REDIRECT + "error.jsp";
+        }
+
+        String responseProcessCommandBeanName = commandUtil.getResponseProcessorBeanName(responseStr);
+        String responsePage = commandUtil.getResponsePage(responseStr);
+
+        springApplicationContext
+                .getBean(responseProcessCommandBeanName, ResponseProcessor.class)
+                .process(request, response, responsePage);
     }
 }
