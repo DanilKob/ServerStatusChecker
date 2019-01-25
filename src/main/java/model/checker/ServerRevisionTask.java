@@ -1,14 +1,22 @@
 package model.checker;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.net.URL;
 
+@Entity
+@Table(name = "check_task")
 public class ServerRevisionTask {
+    @Column
     private URL url;
-    //private int normalTimeout;
+    @Column
     private int criticalTimeout;
+    @Column
     private int errorTimeout;
-
+    @Column
     private int minContentSize;
+    @Column
     private int maxConatentSize;
 
     public ServerRevisionTask (){

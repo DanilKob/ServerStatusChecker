@@ -18,7 +18,9 @@ import java.io.IOException;
 public class RevisionOnLocalServerCommand implements Command {
 
     @Autowired
-    @Qualifier("ConfigurationByJavaBean")
+    @Qualifier("configurationByJavaBean")
+    //@Qualifier("configurationByDataBaseBean")
+    // Can be configuratin manager that read config from DataBase, XML, Json
     private ConfigurationManager<RevisionConfiguration> revisionConfigurationConfigurationManager;
 
     @Autowired
@@ -34,8 +36,6 @@ public class RevisionOnLocalServerCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         RevisionConfiguration revisionConfiguration = revisionConfigurationConfigurationManager.getConfiguration();
-        //RevisorServer revisorServer = revisorServerFactory.build();
-        //revisionOrchestrator.addRevisor(revisorServer);
         RevisionResult revisionResult = revisionOrchestrator.checkServers(revisionConfiguration);
 
         JSONObject jsonObject = resultUtils.adaptToJson(revisionResult);

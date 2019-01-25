@@ -10,7 +10,7 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
-@Repository("ConfigurationByJavaBean")
+@Repository("configurationByJavaBean")
 public class JavaClassConfigurationManager implements ConfigurationManager<RevisionConfiguration> {
 
     private RevisionConfiguration revisionConfiguration = initRevisionConfiguration();
