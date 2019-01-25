@@ -15,7 +15,7 @@
   </head>
   <body>
     Click it!
-    <input type = "button" onclick = "onClick()" value = "Refresh" />
+    <input type = "button" onclick = "onClick()" value = "Get result" />
     <div id="ajaxGetUserServletResponse"></div>
   </body>
 </html>

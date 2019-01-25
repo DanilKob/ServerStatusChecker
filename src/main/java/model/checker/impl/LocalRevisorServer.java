@@ -31,9 +31,11 @@ public class LocalRevisorServer implements RevisorServer {
         List<ServerRevisionTask> serverRevisionTaskList = revisionConfiguration.getServerRevisionTaskList();
         List<ServerRevisionResultItem> serverRevisionResultItemList = serverRevisionTaskList
                 .stream()
-                .parallel()
                 .map(this::ping)
                 .collect(Collectors.toList());
+        // todo remove
+        System.out.println("is list null" + serverRevisionResultItemList == null);
+
         serverRevisionResult.setServerRevisionResultItemList(serverRevisionResultItemList);
 
         return serverRevisionResult;
@@ -45,9 +47,9 @@ public class LocalRevisorServer implements RevisorServer {
 
         int criticalTimeout = serverRevisionTask.getCriticalTimeout();
         URL url = serverRevisionTask.getUrl();
-
+        HttpURLConnection httpURLConnection = null;
         try {
-            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setConnectTimeout(criticalTimeout);
             httpURLConnection.setRequestMethod("GET");
 
@@ -59,19 +61,30 @@ public class LocalRevisorServer implements RevisorServer {
             httpURLConnection.connect();
             finishTime = System.nanoTime();
 
-            resultTime = ((finishTime - startTime) / 1000.0);
+            resultTime = ((finishTime - startTime) / 1000.0 /1000.0);
 
             int responseCode = httpURLConnection.getResponseCode();
             serverRevisionResultItem.setResponseCode(responseCode);
             serverRevisionResultItem.setResponseTime(resultTime);
+
+            if (resultTime < criticalTimeout) {
+                serverRevisionResultItem.setResponseStatus(ResponseStatus.OK);
+            } else {
+                serverRevisionResultItem.setResponseStatus(ResponseStatus.WARNING);
+            }
 
 
         } catch (IOException e) {
             // todo remove stack trace
             e.printStackTrace();
             serverRevisionResultItem.setResponseStatus(ResponseStatus.CRITICAL);
+        } finally {
+            if (httpURLConnection != null) {
+                httpURLConnection.disconnect();
+            }
         }
-
+        // todo remove
+        System.out.println("ping" + serverRevisionResultItem.getServerRevisionTask().getUrl().toString());
         return serverRevisionResultItem;
     }
 }

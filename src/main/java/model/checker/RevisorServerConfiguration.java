@@ -1,5 +1,7 @@
 package model.checker;
 
+import java.util.Objects;
+
 public class RevisorServerConfiguration {
     private String host;
     private int port;
@@ -37,5 +39,19 @@ public class RevisorServerConfiguration {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RevisorServerConfiguration that = (RevisorServerConfiguration) o;
+        return port == that.port &&
+                host.equals(that.host);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(host, port);
     }
 }

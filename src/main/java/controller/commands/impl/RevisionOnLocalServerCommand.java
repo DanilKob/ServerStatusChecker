@@ -6,6 +6,7 @@ import model.checker.*;
 import model.checker.utils.ResultUtils;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -13,11 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Component
+@Component("getResult")
 public class RevisionOnLocalServerCommand implements Command {
 
+    @Autowired
+    @Qualifier("ConfigurationByJavaBean")
     private ConfigurationManager<RevisionConfiguration> revisionConfigurationConfigurationManager;
-    //private ConfigurationManager<RevisorsConfiguration> revisorsConfigurationConfigurationManager;
 
     @Autowired
     private RevisionOrchestrator revisionOrchestrator;
@@ -32,6 +34,8 @@ public class RevisionOnLocalServerCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         RevisionConfiguration revisionConfiguration = revisionConfigurationConfigurationManager.getConfiguration();
+        //RevisorServer revisorServer = revisorServerFactory.build();
+        //revisionOrchestrator.addRevisor(revisorServer);
         RevisionResult revisionResult = revisionOrchestrator.checkServers(revisionConfiguration);
 
         JSONObject jsonObject = resultUtils.adaptToJson(revisionResult);

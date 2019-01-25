@@ -27,7 +27,7 @@ public class ResultUtilsTest {
         ServerRevisionTask serverRevisionTask = new ServerRevisionTask();
 
         serverRevisionTask.setCriticalTimeout(500);
-        serverRevisionTask.setUrl(new URL("https://github.com/DanilKob/ServerStatusChecker"));
+        serverRevisionTask.setUrl(new URL("https://www.tutorialspoint.com/javascript/javascript_placement.htm"));
         serverRevisionTask.setErrorTimeout(700);
 
         revisionResultItem.setResponseTime(100);

@@ -10,14 +10,16 @@ import java.util.stream.Collectors;
 public class RevisorServerFactoryImpl implements RevisorServerFactory {
     @Override
     public RevisorServer build() {
-        return this.build(this.initLocalServerConfiguration());
+        RevisorServer revisorServer = new LocalRevisorServer();
+        revisorServer.setRevisorServerConfiguration(this.initLocalServerConfiguration());
+        return revisorServer;
     }
 
     @Override
     public RevisorServer build(RevisorServerConfiguration revisorServerConfiguration) {
-        RemoteRevisorServer remoteRevisorServer = new RemoteRevisorServer();
-        remoteRevisorServer.setRevisorServerConfiguration(revisorServerConfiguration);
-        return remoteRevisorServer;
+        RevisorServer revisorServer = new RemoteRevisorServer();
+        revisorServer.setRevisorServerConfiguration(revisorServerConfiguration);
+        return revisorServer;
     }
 
     @Override

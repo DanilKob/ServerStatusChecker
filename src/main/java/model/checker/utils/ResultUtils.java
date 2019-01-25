@@ -14,6 +14,9 @@ public class ResultUtils {
         JSONObject jsonObject = new JSONObject();
 
         JSONArray jsonArray = new JSONArray();
+
+        System.out.println(revisionResult.getServerRevisionResultList());
+
         List<JSONArray> serverResults = revisionResult.getServerRevisionResultList()
                 .stream()
                 .map(this::serverResultToJson)
@@ -27,6 +30,7 @@ public class ResultUtils {
 
 
     private JSONArray serverResultToJson(ServerRevisionResult serverRevisionResult) {
+        System.out.println("item list in parser " + serverRevisionResult.getServerRevisionResultItemList());
         List<JSONObject> jsonObjects = serverRevisionResult.getServerRevisionResultItemList()
                 .stream()
                 .map(this::serverResultItemToJson)
