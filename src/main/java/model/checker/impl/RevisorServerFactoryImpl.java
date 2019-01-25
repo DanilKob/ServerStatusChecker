@@ -1,14 +1,18 @@
 package model.checker.impl;
 
-import model.checker.RemoteRevisorServerFactory;
-import model.checker.RevisorServer;
-import model.checker.RevisorServerConfiguration;
-import model.checker.RevisorsConfiguration;
+import model.checker.*;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RemoteRevisorServerFactoryImpl implements RemoteRevisorServerFactory {
+@Component
+public class RevisorServerFactoryImpl implements RevisorServerFactory {
+    @Override
+    public RevisorServer build() {
+        return this.build(this.initLocalServerConfiguration());
+    }
+
     @Override
     public RevisorServer build(RevisorServerConfiguration revisorServerConfiguration) {
         RemoteRevisorServer remoteRevisorServer = new RemoteRevisorServer();
@@ -22,5 +26,14 @@ public class RemoteRevisorServerFactoryImpl implements RemoteRevisorServerFactor
                 .stream()
                 .map(this::build)
                 .collect(Collectors.toList());
+    }
+
+    private RevisorServerConfiguration initLocalServerConfiguration() {
+        RevisorServerConfiguration revisorServerConfiguration = new RevisorServerConfiguration(
+                CheckerConstant.LOCALHOST,
+                CheckerConstant.UNKNOWN_PORT,
+                true
+        );
+        return revisorServerConfiguration;
     }
 }

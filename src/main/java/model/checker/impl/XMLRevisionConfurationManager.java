@@ -17,7 +17,7 @@ public class XMLRevisionConfurationManager implements ConfigurationManager<Revis
     }
 
     @Override
-    public void isCached(boolean isCached) {
+    public void setCache(boolean isCached) {
 
     }
 

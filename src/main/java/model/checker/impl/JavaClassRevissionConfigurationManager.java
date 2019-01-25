@@ -2,23 +2,23 @@ package model.checker.impl;
 
 import model.checker.ConfigurationManager;
 import model.checker.RevisionConfiguration;
-import org.springframework.stereotype.Component;
 
-@Component
-public class JavaClassRevissionConfigurationManager implements ConfigurationManager<RevisionConfiguration>{
+public abstract class JavaClassRevissionConfigurationManager implements ConfigurationManager<RevisionConfiguration> {
+
+    private RevisionConfiguration revisionConfiguration;
 
     @Override
     public RevisionConfiguration getConfiguration() {
-        return null;
+        if (revisionConfiguration == null) {
+
+        }
+        return revisionConfiguration;
     }
 
     @Override
     public void updateConfiguration(RevisionConfiguration configuration) {
-
+        this.revisionConfiguration = configuration;
     }
 
-    @Override
-    public void isCached(boolean isCached) {
-
-    }
+    public abstract RevisionConfiguration initRevissionConfig();
 }
