@@ -9,7 +9,7 @@ public class RemoteRevisorServer implements RevisorServer {
     }
 
     @Override
-    public RevisionResult getRevissionResult() {
+    public RevisorServerConfiguration getRevisorConfiguration() {
         return null;
     }
 
