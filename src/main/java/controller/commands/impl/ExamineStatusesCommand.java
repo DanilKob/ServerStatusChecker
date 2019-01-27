@@ -20,7 +20,7 @@ public class ExamineStatusesCommand implements Command {
     @Autowired
     @Qualifier("configurationByJavaBean")
     //@Qualifier("configurationByDataBaseBean")
-    // Can be configuratin manager that read config from DataBase, XML, Json
+    // Can be configuration manager that read config from DataBase, XML, Json
     private ConfigurationManager<StatusCheckConfiguration> revisionConfigurationConfigurationManager;
 
     @Autowired

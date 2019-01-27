@@ -2,11 +2,12 @@ package model.checker;
 
 import java.util.List;
 
+/**
+ * Contains all host to ping
+ * @see StatusCheckTask
+ */
 public class StatusCheckConfiguration {
     private List<StatusCheckTask> statusCheckTaskList;
-    private int frequance;
-
-
 
     public List<StatusCheckTask> getStatusCheckTaskList() {
         return statusCheckTaskList;
@@ -14,13 +15,5 @@ public class StatusCheckConfiguration {
 
     public void setStatusCheckTaskList(List<StatusCheckTask> statusCheckTaskList) {
         this.statusCheckTaskList = statusCheckTaskList;
-    }
-
-    public int getFrequance() {
-        return frequance;
-    }
-
-    public void setFrequance(int frequance) {
-        this.frequance = frequance;
     }
 }

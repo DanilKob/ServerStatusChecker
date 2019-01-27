@@ -2,6 +2,9 @@ package model.checker;
 
 import java.util.Objects;
 
+/**
+ * Configuration of {@see model.checker.ExaminerAgent}
+ */
 public class ExaminerAgentConfiguration {
     private String host;
     private int port;

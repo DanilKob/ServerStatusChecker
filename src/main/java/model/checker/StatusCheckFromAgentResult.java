@@ -2,6 +2,9 @@ package model.checker;
 
 import java.util.List;
 
+/**
+ * Result of ping all hosts done by one {@see model.checker.ExaminerAgent}
+ */
 public class StatusCheckFromAgentResult {
     private List<StatusCheckResultItem> statusCheckResultItemList;
     private ExaminerAgentConfiguration examinerAgentConfiguration;

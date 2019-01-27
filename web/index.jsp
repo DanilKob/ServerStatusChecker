@@ -11,11 +11,10 @@
       <title>Status</title>
       <script src="static/jQuery.js"
               type="text/javascript"></script>
-      <script type="text/javascript" src="static/listDisplayer.js"></script>
+      <script type="text/javascript" src="static/resultDisplayer.js"></script>
   </head>
   <body>
-    Click it!
-    <input type = "button" onclick = "onClick()" value = "Get result" />
+    <input type = "button" onclick = "onClick()" value = "Get/Update results" />
     <div id="ajaxGetUserServletResponse"></div>
   </body>
 </html>

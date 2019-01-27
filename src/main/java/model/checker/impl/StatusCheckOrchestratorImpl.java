@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
-public class RevisorOrchestratorImpl implements StatusCheckOrchestrator {
+public class StatusCheckOrchestratorImpl implements StatusCheckOrchestrator {
 
     private Map<ExaminerAgentConfiguration, ExaminerAgent> examinerAgentMap = new HashMap<>();
 
