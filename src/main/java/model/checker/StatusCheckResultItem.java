@@ -1,7 +1,7 @@
 package model.checker;
 
-public class ServerRevisionResultItem {
-    private ServerRevisionTask serverRevisionTask;
+public class StatusCheckResultItem {
+    private StatusCheckTask statusCheckTask;
     private double responseTime;
     private int responseCode;
     private ResponseStatus responseStatus;
@@ -16,12 +16,12 @@ public class ServerRevisionResultItem {
 
     private String serverDescription;
 
-    public ServerRevisionTask getServerRevisionTask() {
-        return serverRevisionTask;
+    public StatusCheckTask getStatusCheckTask() {
+        return statusCheckTask;
     }
 
-    public void setServerRevisionTask(ServerRevisionTask serverRevisionTask) {
-        this.serverRevisionTask = serverRevisionTask;
+    public void setStatusCheckTask(StatusCheckTask statusCheckTask) {
+        this.statusCheckTask = statusCheckTask;
     }
 
     public double getResponseTime() {

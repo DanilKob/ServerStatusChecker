@@ -7,7 +7,7 @@ import java.net.URL;
 
 @Entity
 @Table(name = "check_task")
-public class ServerRevisionTask {
+public class StatusCheckTask {
     @Column
     private URL url;
     @Column
@@ -19,11 +19,11 @@ public class ServerRevisionTask {
     @Column
     private int maxConatentSize;
 
-    public ServerRevisionTask (){
+    public StatusCheckTask(){
 
     }
 
-    public ServerRevisionTask(URL url, int criticalTimeout, int errorTimeout, int minContentSize, int maxConatentSize) {
+    public StatusCheckTask(URL url, int criticalTimeout, int errorTimeout, int minContentSize, int maxConatentSize) {
         this.url = url;
         this.criticalTimeout = criticalTimeout;
         this.errorTimeout = errorTimeout;

@@ -4,35 +4,33 @@ import model.checker.*;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
-public class RevisorOrchestratorImpl implements RevisionOrchestrator {
+public class RevisorOrchestratorImpl implements StatusCheckOrchestrator {
 
-    private Map<RevisorServerConfiguration, RevisorServer> revisorServerMap = new HashMap<>();
+    private Map<ExaminerAgentConfiguration, ExaminerAgent> examinerAgentMap = new HashMap<>();
 
     @Override
-    public RevisionResult checkServers(RevisionConfiguration revisionConfiguration) {
-        System.out.println("Check servers ... ");
-        List<ServerRevisionResult> serverRevisionResults = revisorServerMap.values()
+    public OverallStatusCheckResult checkServers(StatusCheckConfiguration statusCheckConfiguration) {
+        List<StatusCheckFromAgentResult> statusCheckFromAgentResults = examinerAgentMap.values()
                 .stream()
-                .map(revisorServer -> revisorServer.checkServers(revisionConfiguration))
+                .map(examinerAgent -> examinerAgent.checkServers(statusCheckConfiguration))
                 .collect(Collectors.toList());
-        RevisionResult revisionResult = new RevisionResult();
-        revisionResult.setServerRevisionResultList(serverRevisionResults);
-        return revisionResult;
+        OverallStatusCheckResult overallStatusCheckResult = new OverallStatusCheckResult();
+        overallStatusCheckResult.setStatusCheckFromAgentResultList(statusCheckFromAgentResults);
+        return overallStatusCheckResult;
     }
 
     @Override
-    public void addRevisor(RevisorServer revisorServer) {
-        revisorServerMap.put(revisorServer.getRevisorConfiguration(), revisorServer);
+    public void addExaminerAgent(ExaminerAgent examinerAgent) {
+        examinerAgentMap.put(examinerAgent.getExaminerAgentConfiguration(), examinerAgent);
     }
 
     @Override
-    public void update(RevisorServer revisorServer) {
-        revisorServerMap.put(revisorServer.getRevisorConfiguration(), revisorServer);
+    public void update(ExaminerAgent examinerAgent) {
+        examinerAgentMap.put(examinerAgent.getExaminerAgentConfiguration(), examinerAgent);
     }
 }

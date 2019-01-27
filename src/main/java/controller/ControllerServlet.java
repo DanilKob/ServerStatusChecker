@@ -41,18 +41,17 @@ public class ControllerServlet extends HttpServlet {
     }
 
     private void proccesRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String commandBeanName = commandUtil.getCommandBeanName(request);
-        System.out.println(commandBeanName);
-        Command command = springApplicationContext.getBean(commandBeanName, Command.class);
-        String responseStr;
 
+        String responseStr;
         try {
+            String commandBeanName = commandUtil.getCommandBeanName(request);
+            Command command = springApplicationContext.getBean(commandBeanName, Command.class);
+
             responseStr = command.execute(request, response);
         } catch (RuntimeException e) {
             e.printStackTrace();
             responseStr = CommandConstants.REDIRECT + "error.jsp";
         }
-        System.out.println(responseStr);
         String responseProcessCommandBeanName = commandUtil.getResponseProcessorBeanName(responseStr);
         String responsePage = commandUtil.getResponsePage(responseStr);
 

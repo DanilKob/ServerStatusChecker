@@ -6,7 +6,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-public class SpringApplicationContextListener implements ServletContextListener {
+public class SpringApplicationContextInitializerListener implements ServletContextListener {
 
     private ClassPathXmlApplicationContext context;
 
@@ -14,7 +14,6 @@ public class SpringApplicationContextListener implements ServletContextListener 
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         this.context = new ClassPathXmlApplicationContext(SpringContexConstants.CONFIGURATION_XML_PATH);
         servletContextEvent.getServletContext().setAttribute(SpringContexConstants.APPLICATION_CONTEXT, context);
-        System.out.println("Init Contex");
     }
 
     @Override

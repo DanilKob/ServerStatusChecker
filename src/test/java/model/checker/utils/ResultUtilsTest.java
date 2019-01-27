@@ -1,10 +1,8 @@
 package model.checker.utils;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import model.checker.*;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.net.MalformedURLException;
@@ -12,47 +10,44 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 public class ResultUtilsTest {
 
     ResultUtils resultUtils = new ResultUtils();
-    RevisionResult revisionResult;
+    OverallStatusCheckResult overallStatusCheckResult;
 
     @Before
     public void init() throws MalformedURLException {
-        revisionResult = new RevisionResult();
-        ServerRevisionResult serverRevisionResult = new ServerRevisionResult();
-        ServerRevisionResultItem revisionResultItem = new ServerRevisionResultItem();
-        ServerRevisionTask serverRevisionTask = new ServerRevisionTask();
+        overallStatusCheckResult = new OverallStatusCheckResult();
+        StatusCheckFromAgentResult statusCheckFromAgentResult = new StatusCheckFromAgentResult();
+        StatusCheckResultItem revisionResultItem = new StatusCheckResultItem();
+        StatusCheckTask statusCheckTask = new StatusCheckTask();
 
-        serverRevisionTask.setCriticalTimeout(500);
-        serverRevisionTask.setUrl(new URL("https://www.tutorialspoint.com/javascript/javascript_placement.htm"));
-        serverRevisionTask.setErrorTimeout(700);
+        statusCheckTask.setCriticalTimeout(500);
+        statusCheckTask.setUrl(new URL("https://www.tutorialspoint.com/javascript/javascript_placement.htm"));
+        statusCheckTask.setErrorTimeout(700);
 
         revisionResultItem.setResponseTime(100);
         revisionResultItem.setResponseCode(200);
         revisionResultItem.setResponseStatus(ResponseStatus.OK);
-        revisionResultItem.setServerRevisionTask(serverRevisionTask);
+        revisionResultItem.setStatusCheckTask(statusCheckTask);
 
-        List<ServerRevisionResultItem> serverRevisionResultItemList = new LinkedList<>();
+        List<StatusCheckResultItem> statusCheckResultItemList = new LinkedList<>();
 
-        serverRevisionResultItemList.add(revisionResultItem);
-        serverRevisionResultItemList.add(revisionResultItem);
+        statusCheckResultItemList.add(revisionResultItem);
+        statusCheckResultItemList.add(revisionResultItem);
 
-        serverRevisionResult.setServerRevisionResultItemList(serverRevisionResultItemList);
+        statusCheckFromAgentResult.setStatusCheckResultItemList(statusCheckResultItemList);
 
-        List<ServerRevisionResult> serverRevisionResultList = new LinkedList<>();
+        List<StatusCheckFromAgentResult> statusCheckFromAgentResultList = new LinkedList<>();
 
-        serverRevisionResultList.add(serverRevisionResult);
-        serverRevisionResultList.add(serverRevisionResult);
+        statusCheckFromAgentResultList.add(statusCheckFromAgentResult);
+        statusCheckFromAgentResultList.add(statusCheckFromAgentResult);
 
-        revisionResult.setServerRevisionResultList(serverRevisionResultList);
+        overallStatusCheckResult.setStatusCheckFromAgentResultList(statusCheckFromAgentResultList);
     }
 
     @Test
     public void adaptToJson() {
-        System.out.println(resultUtils.adaptToJson(revisionResult).toJSONString());
         Assert.assertTrue(true);
     }
 }

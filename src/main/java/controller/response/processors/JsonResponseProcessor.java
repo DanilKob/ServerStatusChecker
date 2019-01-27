@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Component("json")
+@Component("jsonResponseProcessor")
 public class JsonResponseProcessor implements ResponseProcessor {
     @Override
     public void process(HttpServletRequest request, HttpServletResponse response, String page) throws ServletException, IOException {

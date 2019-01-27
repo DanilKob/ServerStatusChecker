@@ -1,43 +1,41 @@
 package model.config;
 
 import model.checker.ConfigurationManager;
-import model.checker.RevisionConfiguration;
-import model.checker.ServerRevisionTask;
+import model.checker.StatusCheckConfiguration;
+import model.checker.StatusCheckTask;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository("configurationByDataBaseBean")
-public class DataBaseConfigurationManager implements ConfigurationManager<RevisionConfiguration> {
+public class DataBaseConfigurationManager implements ConfigurationManager<StatusCheckConfiguration> {
 
     private final static String DB_CONFIG = "hibernate.cfg.xml";
-    private SessionFactory sessionFactory;
+    private SessionFactory sessionFactory = this.initSessionFactory();
 
     @Override
-    public RevisionConfiguration getConfiguration() {
-        RevisionConfiguration revisionConfiguration = new RevisionConfiguration();
+    public StatusCheckConfiguration getConfiguration() {
+        StatusCheckConfiguration statusCheckConfiguration = new StatusCheckConfiguration();
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        List<ServerRevisionTask> serverRevisionTasks = session
-                .createQuery("from model.checker.ServerRevisionTask", ServerRevisionTask.class)
+        List<StatusCheckTask> statusCheckTasks = session
+                .createQuery("from model.checker.StatusCheckTask", StatusCheckTask.class)
                 .getResultList();
         session.getTransaction().commit();
-        revisionConfiguration.setServerRevisionTaskList(serverRevisionTasks);
-        return revisionConfiguration;
+        statusCheckConfiguration.setStatusCheckTaskList(statusCheckTasks);
+        return statusCheckConfiguration;
     }
 
     @Override
-    public void updateConfiguration(RevisionConfiguration configuration) {
+    public void updateConfiguration(StatusCheckConfiguration configuration) {
 
     }
 
     private SessionFactory initSessionFactory() {
         Configuration configuration = new Configuration().configure(DB_CONFIG);
 
-        configuration.addAnnotatedClass(ServerRevisionTask.class);
+        configuration.addAnnotatedClass(StatusCheckTask.class);
 
         return configuration.buildSessionFactory();
     }

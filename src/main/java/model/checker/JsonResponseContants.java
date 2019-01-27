@@ -2,7 +2,9 @@ package model.checker;
 
 public interface JsonResponseContants {
     String RESULT = "result";
-    String SERVER_RESULT = "server_result";
+    String AGENT_RESULTS = "agentResults";
+
+    String AGENT_IP = "agentIp";
 
     String URL = "url";
     String CRITICAL_TIMEOUT = "critical_timeout";

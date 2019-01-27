@@ -1,8 +1,8 @@
 package model.config;
 
 import model.checker.ConfigurationManager;
-import model.checker.RevisionConfiguration;
-import model.checker.ServerRevisionTask;
+import model.checker.StatusCheckConfiguration;
+import model.checker.StatusCheckTask;
 import org.springframework.stereotype.Repository;
 
 import java.net.MalformedURLException;
@@ -11,40 +11,42 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Repository("configurationByJavaBean")
-public class JavaClassConfigurationManager implements ConfigurationManager<RevisionConfiguration> {
+public class JavaClassConfigurationManager implements ConfigurationManager<StatusCheckConfiguration> {
 
-    private RevisionConfiguration revisionConfiguration = initRevisionConfiguration();
+    private StatusCheckConfiguration statusCheckConfiguration = initRevisionConfiguration();
 
     @Override
-    public RevisionConfiguration getConfiguration() {
-        return this.revisionConfiguration;
+    public StatusCheckConfiguration getConfiguration() {
+        return this.statusCheckConfiguration;
     }
 
     @Override
-    public void updateConfiguration(RevisionConfiguration configuration) {
+    public void updateConfiguration(StatusCheckConfiguration configuration) {
 
     }
 
-    private RevisionConfiguration initRevisionConfiguration() {
-        RevisionConfiguration revisionConfiguration = new RevisionConfiguration();
-        List<ServerRevisionTask> serverRevisionTaskList = new LinkedList<>();
-        ServerRevisionTask serverRevisionTask = new ServerRevisionTask();
+    private StatusCheckConfiguration initRevisionConfiguration() {
+        StatusCheckConfiguration statusCheckConfiguration = new StatusCheckConfiguration();
+        List<StatusCheckTask> statusCheckTaskList = new LinkedList<>();
+        StatusCheckTask statusCheckTask = new StatusCheckTask();
 
         try {
-            serverRevisionTask.setCriticalTimeout(500);
-            serverRevisionTask.setUrl(new URL("https://www.tutorialspoint.com/javascript/javascript_placement.htm"));
-            serverRevisionTask.setErrorTimeout(700);
+            statusCheckTask.setUrl(new URL("https://www.tutorialspoint.com/javascript/javascript_placement.htm"));
+            statusCheckTask.setCriticalTimeout(500);
+            statusCheckTask.setErrorTimeout(700);
+            statusCheckTaskList.add(statusCheckTask);
 
+            statusCheckTask = new StatusCheckTask();
+            statusCheckTask.setUrl(new URL("https://sitis.com.ua/about/articles/programma_1s_dlya_chaynikov/"));
+            statusCheckTask.setCriticalTimeout(400);
+            statusCheckTask.setErrorTimeout(600);
+            statusCheckTaskList.add(statusCheckTask);
 
-            serverRevisionTaskList.add(serverRevisionTask);
-            serverRevisionTaskList.add(serverRevisionTask);
-
-            revisionConfiguration.setServerRevisionTaskList(serverRevisionTaskList);
+            statusCheckConfiguration.setStatusCheckTaskList(statusCheckTaskList);
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        System.out.println("List from config" + revisionConfiguration.getServerRevisionTaskList());
-        return revisionConfiguration;
+        return statusCheckConfiguration;
     }
 }

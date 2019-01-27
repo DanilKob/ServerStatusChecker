@@ -10,46 +10,49 @@ import java.util.stream.Collectors;
 
 @Component
 public class ResultUtils {
-    public JSONObject adaptToJson(RevisionResult revisionResult) {
+    public JSONObject adaptToJson(OverallStatusCheckResult overallStatusCheckResult) {
         JSONObject jsonObject = new JSONObject();
 
         JSONArray jsonArray = new JSONArray();
 
-        System.out.println(revisionResult.getServerRevisionResultList());
-
-        List<JSONArray> serverResults = revisionResult.getServerRevisionResultList()
+        List<JSONObject> serverResults = overallStatusCheckResult.getStatusCheckFromAgentResultList()
                 .stream()
                 .map(this::serverResultToJson)
                 .collect(Collectors.toList());
 
         jsonArray.addAll(serverResults);
         jsonObject.put(JsonResponseContants.RESULT, jsonArray);
-        // todo implement
         return jsonObject;
     }
 
 
-    private JSONArray serverResultToJson(ServerRevisionResult serverRevisionResult) {
-        System.out.println("item list in parser " + serverRevisionResult.getServerRevisionResultItemList());
-        List<JSONObject> jsonObjects = serverRevisionResult.getServerRevisionResultItemList()
+    private JSONObject serverResultToJson(StatusCheckFromAgentResult statusCheckFromAgentResult) {
+        List<JSONObject> jsonObjects = statusCheckFromAgentResult.getStatusCheckResultItemList()
                 .stream()
                 .map(this::serverResultItemToJson)
                 .collect(Collectors.toList());
 
         JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+        ExaminerAgentConfiguration agentConfiguration = statusCheckFromAgentResult.getExaminerAgentConfiguration();
+        String agentIp = agentConfiguration.getHost();
+
         jsonArray.addAll(jsonObjects);
-        return jsonArray;
+        jsonObject.put(JsonResponseContants.AGENT_RESULTS, jsonArray);
+        jsonObject.put(JsonResponseContants.AGENT_IP, agentIp);
+
+        return jsonObject;
     }
 
-    private JSONObject serverResultItemToJson(ServerRevisionResultItem serverRevisionResultItem) {
-        ServerRevisionTask serverRevisionTask = serverRevisionResultItem.getServerRevisionTask();
-        String url = serverRevisionTask.getUrl().toString();
-        int criticalTimeout = serverRevisionTask.getCriticalTimeout();
-        int errorTimeout = serverRevisionTask.getErrorTimeout();
+    private JSONObject serverResultItemToJson(StatusCheckResultItem statusCheckResultItem) {
+        StatusCheckTask statusCheckTask = statusCheckResultItem.getStatusCheckTask();
+        String url = statusCheckTask.getUrl().toString();
+        int criticalTimeout = statusCheckTask.getCriticalTimeout();
+        int errorTimeout = statusCheckTask.getErrorTimeout();
 
-        int responseCode = serverRevisionResultItem.getResponseCode();
-        double responseTime = serverRevisionResultItem.getResponseTime();
-        String status = serverRevisionResultItem.getResponseStatus().toString();
+        int responseCode = statusCheckResultItem.getResponseCode();
+        double responseTime = statusCheckResultItem.getResponseTime();
+        String status = statusCheckResultItem.getResponseStatus().toString();
 
         JSONObject jsonObject = new JSONObject();
 

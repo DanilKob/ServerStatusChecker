@@ -1,24 +1,24 @@
 package model.checker.impl;
 
 import model.checker.ConfigurationManager;
-import model.checker.RevisionConfiguration;
+import model.checker.StatusCheckConfiguration;
 
-public abstract class JavaClassRevissionConfigurationManager implements ConfigurationManager<RevisionConfiguration> {
+public abstract class JavaClassRevissionConfigurationManager implements ConfigurationManager<StatusCheckConfiguration> {
 
-    private RevisionConfiguration revisionConfiguration;
+    private StatusCheckConfiguration statusCheckConfiguration;
 
     @Override
-    public RevisionConfiguration getConfiguration() {
-        if (revisionConfiguration == null) {
+    public StatusCheckConfiguration getConfiguration() {
+        if (statusCheckConfiguration == null) {
 
         }
-        return revisionConfiguration;
+        return statusCheckConfiguration;
     }
 
     @Override
-    public void updateConfiguration(RevisionConfiguration configuration) {
-        this.revisionConfiguration = configuration;
+    public void updateConfiguration(StatusCheckConfiguration configuration) {
+        this.statusCheckConfiguration = configuration;
     }
 
-    public abstract RevisionConfiguration initRevissionConfig();
+    public abstract StatusCheckConfiguration initRevissionConfig();
 }

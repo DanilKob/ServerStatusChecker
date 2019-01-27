@@ -25,6 +25,6 @@
     </servlet-mapping>
 
     <listener>
-        <listener-class>controller.listeners.SpringApplicationContextListener</listener-class>
+        <listener-class>controller.listeners.SpringApplicationContextInitializerListener</listener-class>
     </listener>
 </web-app>

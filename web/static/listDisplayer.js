@@ -1,13 +1,19 @@
 function onClick() {
     $.ajax({
         url : '/checker/servlet?command=getResult',
+        method: 'POST',
         success : function(responseJson) {
 
             var serverResultsArray = responseJson.result;
 
             $.each(serverResultsArray, function(index, serverResult) {
-                $( "#ajaxGetUserServletResponse").empty();
-                var $table = $("<table>").appendTo($("#ajaxGetUserServletResponse"));
+
+                var div = $( "#ajaxGetUserServletResponse");
+                div.empty();
+
+                var agentIp = serverResult.agentIp;
+                $("<p>").text("Information from agent " + agentIp).appendTo(div);
+                var $table = $("<table>").appendTo(div);
                 var $tr = $("<tr>");
 
                 $("<th>").text("#").appendTo($tr);
@@ -20,16 +26,17 @@ function onClick() {
 
                 $tr.appendTo($table);
 
+                var agentResultItem = serverResult.agentResults;
 
-                $.each(serverResult, function(ind, serverResultItem) {
+                $.each(agentResultItem, function(ind, agentResultItem) {
                     $tr = $("<tr>");
                     $("<td>").text(ind).appendTo($tr);
-                    $("<td>").text(serverResultItem.url).appendTo($tr);
-                    $("<td>").text(serverResultItem.responseCode).appendTo($tr);
-                    $("<td>").text(serverResultItem.responseTime).appendTo($tr);
-                    $("<td>").text(serverResultItem.status).appendTo($tr);
-                    $("<td>").text(serverResultItem.critical_timeout).appendTo($tr);
-                    $("<td>").text(serverResultItem.error_timeout).appendTo($tr);
+                    $("<td>").text(agentResultItem.url).appendTo($tr);
+                    $("<td>").text(agentResultItem.responseCode).appendTo($tr);
+                    $("<td>").text(agentResultItem.responseTime).appendTo($tr);
+                    $("<td>").text(agentResultItem.status).appendTo($tr);
+                    $("<td>").text(agentResultItem.critical_timeout).appendTo($tr);
+                    $("<td>").text(agentResultItem.error_timeout).appendTo($tr);
 
                     $tr.appendTo($table);
                 });

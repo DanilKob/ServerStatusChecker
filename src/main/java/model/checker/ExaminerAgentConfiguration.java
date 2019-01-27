@@ -2,16 +2,16 @@ package model.checker;
 
 import java.util.Objects;
 
-public class RevisorServerConfiguration {
+public class ExaminerAgentConfiguration {
     private String host;
     private int port;
     private boolean isActive;
 
-    public RevisorServerConfiguration () {
+    public ExaminerAgentConfiguration() {
 
     }
 
-    public RevisorServerConfiguration(String host, int port, boolean isActive) {
+    public ExaminerAgentConfiguration(String host, int port, boolean isActive) {
         this.host = host;
         this.port = port;
         this.isActive = isActive;
@@ -45,7 +45,7 @@ public class RevisorServerConfiguration {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        RevisorServerConfiguration that = (RevisorServerConfiguration) o;
+        ExaminerAgentConfiguration that = (ExaminerAgentConfiguration) o;
         return port == that.port &&
                 host.equals(that.host);
     }

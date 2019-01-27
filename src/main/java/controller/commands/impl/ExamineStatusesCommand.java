@@ -15,19 +15,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component("getResult")
-public class RevisionOnLocalServerCommand implements Command {
+public class ExamineStatusesCommand implements Command {
 
     @Autowired
     @Qualifier("configurationByJavaBean")
     //@Qualifier("configurationByDataBaseBean")
     // Can be configuratin manager that read config from DataBase, XML, Json
-    private ConfigurationManager<RevisionConfiguration> revisionConfigurationConfigurationManager;
+    private ConfigurationManager<StatusCheckConfiguration> revisionConfigurationConfigurationManager;
 
     @Autowired
-    private RevisionOrchestrator revisionOrchestrator;
+    private StatusCheckOrchestrator statusCheckOrchestrator;
 
     @Autowired
-    private RevisorServerFactory revisorServerFactory;
+    private ExaminerAgentFactory examinerAgentFactory;
 
     @Autowired
     ResultUtils resultUtils;
@@ -35,10 +35,10 @@ public class RevisionOnLocalServerCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        RevisionConfiguration revisionConfiguration = revisionConfigurationConfigurationManager.getConfiguration();
-        RevisionResult revisionResult = revisionOrchestrator.checkServers(revisionConfiguration);
+        StatusCheckConfiguration statusCheckConfiguration = revisionConfigurationConfigurationManager.getConfiguration();
+        OverallStatusCheckResult overallStatusCheckResult = statusCheckOrchestrator.checkServers(statusCheckConfiguration);
 
-        JSONObject jsonObject = resultUtils.adaptToJson(revisionResult);
+        JSONObject jsonObject = resultUtils.adaptToJson(overallStatusCheckResult);
         jsonObject.writeJSONString(response.getWriter());
 
         return CommandConstants.JSON_RESPONSE;
@@ -46,7 +46,7 @@ public class RevisionOnLocalServerCommand implements Command {
 
     @PostConstruct
     private void initRevisorServer() {
-        RevisorServer localRevisorServer = revisorServerFactory.build();
-        revisionOrchestrator.addRevisor(localRevisorServer);
+        ExaminerAgent localExaminerAgent = examinerAgentFactory.build();
+        statusCheckOrchestrator.addExaminerAgent(localExaminerAgent);
     }
 }
