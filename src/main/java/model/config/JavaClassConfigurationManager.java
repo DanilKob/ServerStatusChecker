@@ -10,7 +10,7 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
-@Repository("configurationByJavaBean")
+@Repository("javaConfigurationManagerBean")
 public class JavaClassConfigurationManager implements ConfigurationManager<StatusCheckConfiguration> {
 
     private StatusCheckConfiguration statusCheckConfiguration = initRevisionConfiguration();

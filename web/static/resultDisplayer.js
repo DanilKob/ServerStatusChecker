@@ -1,3 +1,5 @@
+window.setInterval(onClick, 5000);
+
 function onClick() {
     $.ajax({
         url : '/checker/servlet?command=getResult',

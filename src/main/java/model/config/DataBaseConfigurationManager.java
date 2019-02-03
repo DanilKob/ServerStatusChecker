@@ -5,24 +5,29 @@ import model.checker.StatusCheckConfiguration;
 import model.checker.StatusCheckTask;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Repository("databaseConfigurationManagerBean")
 public class DataBaseConfigurationManager implements ConfigurationManager<StatusCheckConfiguration> {
 
-    private final static String DB_CONFIG = "hibernate.cfg.xml";
-    private SessionFactory sessionFactory = this.initSessionFactory();
+    @Autowired
+    private SessionFactory sessionFactory;
 
+    @Transactional
     @Override
     public StatusCheckConfiguration getConfiguration() {
+
         StatusCheckConfiguration statusCheckConfiguration = new StatusCheckConfiguration();
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
+        //session.beginTransaction();
         List<StatusCheckTask> statusCheckTasks = session
                 .createQuery("from model.checker.StatusCheckTask", StatusCheckTask.class)
                 .getResultList();
-        session.getTransaction().commit();
+        //session.getTransaction().commit();
         statusCheckConfiguration.setStatusCheckTaskList(statusCheckTasks);
         return statusCheckConfiguration;
     }
@@ -32,11 +37,11 @@ public class DataBaseConfigurationManager implements ConfigurationManager<Status
 
     }
 
-    private SessionFactory initSessionFactory() {
-        Configuration configuration = new Configuration().configure(DB_CONFIG);
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
 
-        configuration.addAnnotatedClass(StatusCheckTask.class);
-
-        return configuration.buildSessionFactory();
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 }

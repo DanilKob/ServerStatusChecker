@@ -4,6 +4,7 @@ import controller.commands.Command;
 import controller.commands.CommandConstants;
 import model.checker.*;
 import model.checker.utils.ResultUtils;
+import model.config.ConfigurationManagerBeanNames;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,8 +19,8 @@ import java.io.IOException;
 public class ExamineStatusesCommand implements Command {
 
     @Autowired
-    @Qualifier("configurationByJavaBean")
-    //@Qualifier("configurationByDataBaseBean")
+    // @Qualifier(ConfigurationManagerBeanNames.JAVA_CONFIGURATION_MANAGER_BEAN)
+    @Qualifier(ConfigurationManagerBeanNames.DATABASE_CONFIGURATION_MANAGER_BEAN)
     // Can be configuration manager that read config from DataBase, XML, Json
     private ConfigurationManager<StatusCheckConfiguration> revisionConfigurationConfigurationManager;
 

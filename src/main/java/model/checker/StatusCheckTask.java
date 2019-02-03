@@ -1,34 +1,36 @@
 package model.checker;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.net.URL;
 
 @Entity
 @Table(name = "check_task")
 public class StatusCheckTask {
-    @Column
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
+    @Column(name = "url")
     private URL url;
-    @Column
+    @Column(name = "critical_timeout")
     private int criticalTimeout;
-    @Column
+    @Column(name ="error_timeout")
     private int errorTimeout;
-    @Column
+    @Column(name = "min_content_size")
     private int minContentSize;
-    @Column
-    private int maxConatentSize;
+    @Column(name = "max_content_size")
+    private int maxContentSize;
 
     public StatusCheckTask(){
 
     }
 
-    public StatusCheckTask(URL url, int criticalTimeout, int errorTimeout, int minContentSize, int maxConatentSize) {
+    public StatusCheckTask(URL url, int criticalTimeout, int errorTimeout, int minContentSize, int maxContentSize) {
         this.url = url;
         this.criticalTimeout = criticalTimeout;
         this.errorTimeout = errorTimeout;
         this.minContentSize = minContentSize;
-        this.maxConatentSize = maxConatentSize;
+        this.maxContentSize = maxContentSize;
     }
 
     public URL getUrl() {
@@ -63,11 +65,11 @@ public class StatusCheckTask {
         this.minContentSize = minContentSize;
     }
 
-    public int getMaxConatentSize() {
-        return maxConatentSize;
+    public int getMaxContentSize() {
+        return maxContentSize;
     }
 
-    public void setMaxConatentSize(int maxConatentSize) {
-        this.maxConatentSize = maxConatentSize;
+    public void setMaxContentSize(int maxContentSize) {
+        this.maxContentSize = maxContentSize;
     }
 }

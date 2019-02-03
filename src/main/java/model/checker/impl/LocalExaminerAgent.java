@@ -3,8 +3,11 @@ package model.checker.impl;
 import model.checker.*;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,13 +19,13 @@ public class LocalExaminerAgent implements ExaminerAgent {
     private ExaminerAgentConfiguration examinerAgentConfiguration;
 
     @Override
-    public void setExaminerAgentConfiguration(ExaminerAgentConfiguration examinerAgentConfiguration) {
-        this.examinerAgentConfiguration = examinerAgentConfiguration;
+    public ExaminerAgentConfiguration getExaminerAgentConfiguration() {
+        return examinerAgentConfiguration;
     }
 
     @Override
-    public ExaminerAgentConfiguration getExaminerAgentConfiguration() {
-        return examinerAgentConfiguration;
+    public void setExaminerAgentConfiguration(ExaminerAgentConfiguration examinerAgentConfiguration) {
+        this.examinerAgentConfiguration = examinerAgentConfiguration;
     }
 
     @Override
@@ -47,11 +50,12 @@ public class LocalExaminerAgent implements ExaminerAgent {
         statusCheckResultItem.setStatusCheckTask(statusCheckTask);
 
         int criticalTimeout = statusCheckTask.getCriticalTimeout();
+        int errorTimeout = statusCheckTask.getErrorTimeout();
         URL url = statusCheckTask.getUrl();
         HttpURLConnection httpURLConnection = null;
         try {
             httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setConnectTimeout(criticalTimeout);
+            httpURLConnection.setConnectTimeout(errorTimeout);
             httpURLConnection.setRequestMethod(GET_REQUEST_METHOD);
 
             long startTime;
@@ -62,7 +66,7 @@ public class LocalExaminerAgent implements ExaminerAgent {
             httpURLConnection.connect();
             finishTime = System.nanoTime();
 
-            resultTime = ((finishTime - startTime) / 1000.0 /1000.0); // nano to milli
+            resultTime = ((finishTime - startTime) / 1000_1000.0); // nano to milli
 
             int responseCode = httpURLConnection.getResponseCode();
             statusCheckResultItem.setResponseCode(responseCode);
@@ -70,8 +74,10 @@ public class LocalExaminerAgent implements ExaminerAgent {
 
             if (resultTime < criticalTimeout) {
                 statusCheckResultItem.setResponseStatus(ResponseStatus.OK);
-            } else {
+            } else if (resultTime < errorTimeout) {
                 statusCheckResultItem.setResponseStatus(ResponseStatus.WARNING);
+            } else {
+                statusCheckResultItem.setResponseStatus(ResponseStatus.CRITICAL);
             }
 
 
